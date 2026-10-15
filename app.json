@@ -1,0 +1,81 @@
+{
+  "expo": {
+    "name": "VEIL",
+    "slug": "veil-messaging",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ],
+        "NSFaceIDUsageDescription": "VEIL uses Face ID to unlock your encrypted messages on this device. Your biometrics never leave the device.",
+        "NSMicrophoneUsageDescription": "VEIL uses the microphone only during end-to-end encrypted calls. Audio never leaves your device unencrypted.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "au.com.mattthemagicalmentalist.veil",
+      "buildNumber": "186",
+      "privacyManifest": {
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": [
+              "CA92.1"
+            ]
+          }
+        ]
+      },
+      "associatedDomains": [
+        "applinks:tryveil.app"
+      ]
+    },
+    "android": {
+      "allowBackup": false,
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "VEIL uses the photo library only to attach images you choose to your encrypted messages. Photos never leave the device unencrypted."
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "VEIL uses the microphone only when you tap the mic to record a voice note. The recording is encrypted on this device before it is sent."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "savePhotosPermission": "VEIL saves an image to Photos only when you tap Save to Photos on it. Nothing is saved automatically.",
+          "isAccessMediaLocationEnabled": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "mode": "production"
+        }
+      ]
+    ],
+    "icon": "./assets/icon-1024.png",
+    "splash": {
+      "image": "./assets/splash-1024.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B1018"
+    },
+    "newArchEnabled": false,
+    "owner": "veilprivacys-team",
+    "extra": {
+      "eas": {
+        "projectId": "e0298236-a0f0-4a29-b486-f14cc8577545"
+      },
+      "veilPatch": "b196-r8"
+    },
+    "scheme": "veil"
+  }
+}
