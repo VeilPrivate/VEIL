@@ -1,8 +1,32 @@
-# VEIL — Private Messenger
+# Vardum
 
-End-to-end encrypted messaging with post-quantum key establishment, running on infrastructure the operator controls.
+**Private messaging that stays private, even if someone has your phone.**
 
-**VEIL** is a privacy-focused messenger built for the moments a phone stops being private — a border stop, a search, a device seized from your hands. What sits on the device is ciphertext: no message history, no contacts, no plaintext.
+Vardum (formerly VEIL) is an end-to-end encrypted messenger for iOS. This repository holds the crypto core, the relay server and the protocol layer, under AGPL-3.0, so anyone can check the claims against the code.
+
+> Renamed from VEIL in October 2026. Internal identifiers (`veil_*` keys, `veil-*` crypto labels, the `VeilCrypto` module) keep their old names on purpose: changing them would break existing installs and keys.
+
+## What it does
+
+- **End-to-end encryption.** Hybrid X25519 + ML-KEM-768 key exchange, double ratchet, forward secrecy per message. The relay stores ciphertext it cannot open.
+- **Deleted means deleted.** Burn after read (5 min to 24 h after opening), an expiry for unopened copies, and a wipe either person can trigger. Relay copies are hard-deleted, not hidden.
+- **Nothing-at-Rest.** Identity keys live in memory only. A locked phone fetches nothing and holds nothing to extract. Recovery is the 24-word phrase.
+- **Duress and decoy codes.** A decoy code opens a harmless dashboard. A duress code wipes local keys and server records, then shows the same decoy.
+- **No phone. No email. No name.** Your identity is 24 random words made on your phone. Your Vardum ID is random, and nothing you sign up with points back to you.
+- **Groups up to 100.** Post-quantum sender keys, rotation each epoch, signed membership, evictions that stick.
+- **Encrypted media, vaults and notes.** Per-file keys, a hidden vault volume, a 25 MB cap.
+
+## Honest limits
+
+- Calls work between devices on the same network only. Internet calling is on the roadmap.
+- Vardum has been self-reviewed, not independently audited.
+- The relay sees network metadata such as timing, sizes and the IP address of each request. See the [privacy policy](https://tryveil.app/privacy/) for what is kept and for how long.
+
+Every claim is listed with its evidence in the [claims register](https://tryveil.app/claims/).
+
+## Try it
+
+Join the iOS beta on TestFlight: https://testflight.apple.com/join/Aqay7XH2
 
 ## What's in this repository
 
@@ -14,20 +38,6 @@ End-to-end encrypted messaging with post-quantum key establishment, running on i
 | `modules/` | The native iOS module: hardware-accelerated PBKDF2 and AES for the app lock and the vault |
 | `src/` | The React Native app: the screens, the notifications, the privacy controls |
 | `app.json` | The Expo configuration |
-
-## The security model
-
-- **End-to-end encryption:** AES-256-GCM with a hybrid X25519 + ML-KEM-768 key establishment. The relay stores ciphertext it cannot open.
-- **Post-quantum groups:** one envelope per message under per-epoch ML-KEM-768 keys.
-- **Either-side kill switch:** one tap hard-deletes the thread's envelopes and the session record from the relay.
-- **Nothing-at-Rest:** the identity keys live in memory only — nothing is written to storage at all.
-- **Hold-until-unlock:** a locked phone fetches nothing — messages wait on the relay.
-
-## The honest limits
-
-- The protocol is implemented and self-reviewed, but **not independently audited**.
-- Cover traffic obscures timing and size but does not provide metadata privacy against the relay operator.
-- Calls are same-network only in this build (no STUN/TURN — the roadmap includes self-hosted STUN).
 
 ## Building
 
@@ -48,7 +58,7 @@ cd relay
 deno run -A --unstable-kv main.ts
 ```
 
-Stores ciphertext and metadata it cannot decrypt. The full security model is in the relay's source code and the threat model documentation.
+Stores ciphertext it cannot decrypt. It does see network metadata — see Honest limits above. The full security model is in the relay's source code and the threat model documentation.
 
 ## License
 
